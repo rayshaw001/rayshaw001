@@ -27,11 +27,11 @@ div{
 </style>
 <script type="text/javascript">
 	var home = document.getElementById("home");
-	setInterval("colorRange()",500);//1000为1秒钟
+	//setInterval("colorRange()",200);//1000为1秒钟
 	var color = 0;
     function colorRange()
     {
 		home.style.backgroundColor="#"+color.toString(16);
-		color = color + 2;
+		color = color + 1;
 	}
 </script>
