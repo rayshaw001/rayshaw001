@@ -1,3 +1,4 @@
+<div id="home">
 <div class="div">
 <h1 class="h">Welcome to my Personal Git Page <h1>
 <h2 class="h">My Github Page is <a class="a" href="https://github.com/rayshaw001">rayshaw001</a><h2>
@@ -9,6 +10,7 @@
    style="fill:white;stroke:#01A982;stroke-width:3;fill-rule:evenodd;repeat-x:true" />
 </svg>
 <h1 class="h">Thanks for your coming @_@~ <h1>
+</div>
 <style>
 div{
 		
@@ -23,3 +25,13 @@ div{
 	color:#01A982;
 }
 </style>
+<script type="text/javascript">
+	var home = document.getElementById("home");
+	setInterval("colorRange()",100);//1000为1秒钟
+	var color = 0;
+    function colorRange()
+    {
+		home.backgroundColor="#"+color.toString(16);
+		color = color + 10;
+	}
+</script>
