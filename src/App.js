@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import AboutMe from './AboutMe'
 
 class App extends Component {
   render() {
@@ -11,14 +12,7 @@ class App extends Component {
           <p>
             Ray Shaw's Git Page power by reactjs
           </p>
-          <a
-            className="App-link"
-            href="./moreAboutMe.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            More About Me.
-          </a>
+          more details are coming...
         </header>
       </div>
     );
