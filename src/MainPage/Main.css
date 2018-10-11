@@ -1,4 +1,13 @@
 .Main{
-    padding-left:10%
 
+}
+
+.body{
+    width: 100%;
+    height: 100%;
+}
+
+.markdown{
+    width:85%;
+    float: left;
 }
