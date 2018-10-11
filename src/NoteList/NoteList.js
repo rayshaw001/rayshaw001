@@ -7,38 +7,49 @@ import axios from 'axios';
 import './NoteList.css'
 
 class NoteList extends Component {
-    state={
-        selectedItem:-1
-    }
+    state={}
     constructor(props){
         super(props);
+        this.state={notes:props.notes,selectedItem:-1}
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.notes !== this.state.notes;
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({notes:nextProps.notes})
     }
 
     componentDidMount(){
         var gitBaseUrl ='https://api.github.com/repos/rayshaw001/books/contents/Note/';
-        var notes=this.props.notes.map((note,index)=>{
+        var notes=[]
+        this.state.notes.map((note,index)=>{
+            note["notes"]=[];
             if(note.folder){
-                note["notes"]=[];
                 axios.get(gitBaseUrl + note.name).then(response => {
                     note["notes"].push({
                         name: response.data.name,
                         folder: false
                     });
-                    return note;
+                    notes.push(note);
+                    this.setState({notes:notes});
                 })
             }else{
                 axios.get(gitBaseUrl + note.name).then(response => {
                     note["content"] = decodeURIComponent(escape(window.atob(response.data.content)));
-                    return note;
+                    notes.push(note);
+                    this.setState({notes:notes});
                 })
             }
         })
     }
     render(){
-        var notes=this.props.notes;
-        var items = notes.map((note,index)=>{
+        var notes=this.state.notes;
+        var items=[];
+        notes.map((note,index)=>{
             if(!note.folder){
-                return (
+                items.push (
                 <Menu.Item
                         selected={this.state.selectedItem === index}
                         onClick={this.handleClick.bind(this,note.content,index)}>
@@ -46,13 +57,12 @@ class NoteList extends Component {
                 </Menu.Item> 
                 )
             } else {
-                return (
+                items.push (
                     <Menu.SubMenu key="sub1" title={<span>{note.name}</span>}>
                         <NoteList notes={note.notes} handleOnItemClick={this.handleClick.bind(this)} />
                     </Menu.SubMenu>
                 )
             }
-
         });
         return (
             <div className="NoteList">
