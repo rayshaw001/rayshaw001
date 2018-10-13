@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Ray Shaw's Git Page",
+  "name": "Ray Shaw's Git Page",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "https://github.com/fluidicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
