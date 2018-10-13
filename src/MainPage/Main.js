@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Main.css';
+import './Main.less';
 
 import MarkDown from 'react-markdown';
 import axios from 'axios';
@@ -11,7 +11,7 @@ class Main extends Component {
     constructor(props){
         super(props);
     }
-
+    
     componentDidMount(){
         var baseUrl = 'https://api.github.com/repos/rayshaw001/books/contents/Note/';
         var notes=[];
@@ -19,9 +19,11 @@ class Main extends Component {
             .then(responses => {
                 this.setState({noteTotalSize:responses.data.length});
                 responses.data.map(note=>{
+                    var noteNameIndex=note.name.toLocaleLowerCase().lastIndexOf(".md");
                     notes.push({
-                        name: note.name,
-                        folder: !(note.name.endsWith(".md")||note.name.endsWith(".MD"))
+                        name: noteNameIndex>0?note.name.substring(0,noteNameIndex):note.name,
+                        fullPath:note.name,
+                        folder: !(note.type==="file")
                     })
                     this.setState({ notes: notes })
                 })

@@ -1,41 +1,32 @@
 import React, { Component } from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { Menu, Icon, Button } from 'antd';
 import axios from 'axios';
-import './NoteList.css'
+import './NoteList.less'
+import 'antd/lib/menu/style/css'; 
 
 class NoteList extends Component {
     state={}
     constructor(props){
         super(props);
-        this.state={notes:props.notes,selectedItem:-1,subitems:{}}
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextState.notes !== this.state.notes||nextState.subitems!==this.state.subitems;
+        this.state={notes:props.notes,selectedItem:-1}
     }
 
     componentWillReceiveProps(nextProps){
-
         this.setState({notes:nextProps.notes})
     }
 
-    componentDidMount(){
-        
-    }
     render(){
         var notes=this.state.notes;
         var items=[];
+        var that = this;
         notes.map((note,index)=>{
             if(!note.folder){
                 items.push (
                 <Menu.Item
                     key={index}
-                    selected={this.state.selectedItem === index}
-                    onClick={this.handleClick.bind(this,note,index)}>
-                    <Icon type="pie-chart" />
+                    selected={that.state.selectedItem === index}
+                    onClick={that.handleClick.bind(this,note,index)}>
+                    <Icon type="file-markdown" theme="outlined" />
                     <span>{note.name}</span>
                 </Menu.Item> 
                 )
@@ -43,17 +34,18 @@ class NoteList extends Component {
                 items.push (
                     <Menu.SubMenu 
                         key={index} 
-                        title={<span><Icon type="pie-chart" /> <span>  {note.name}  </span></span>} 
-                        onTitleClick={this.handleClick.bind(this,note,index)}>
-                            {(this.state.subitems[index]||[]).map((item,idx)=>{
-                                return (
-                                <Menu.item 
-                                    key={index + "-" + idx} 
-                                    onClick={this.handleClick.bind(this,item,idx)}>
-                                    item.name
-                                </Menu.item>
-                                )
-                            })}
+                        title={<span><Icon type="folder" theme="outlined" /><span>{note.name} </span> </span>} 
+                        onTitleClick={that.handleClick.bind(this,note,index)}>
+                            {
+                                (note.subitems||[]).map((item,idx)=>{
+                                   return <Menu.Item 
+                                        key={index + "-" + idx} 
+                                        onClick={that.handleClick.bind(this,item,idx)}>
+                                        <Icon type="file-markdown" theme="outlined" />
+                                        {item.name}
+                                    </Menu.Item>
+                                })
+                            }
                     </Menu.SubMenu>
                 )
             }
@@ -62,8 +54,7 @@ class NoteList extends Component {
             <div className="NoteList">
                 <Menu 
                     mode="inline"
-                    theme="dark"
-                    style={{width:256}}
+                    theme="light"
                 >
                     {items}
                 </Menu>
@@ -71,35 +62,38 @@ class NoteList extends Component {
         );
     }
 
-    handleFolderToggle = (index) =>{
-
-    }
-
     handleClick = (note,index) => {
         var gitBaseUrl ='https://api.github.com/repos/rayshaw001/books/contents/Note/';
-        this.setState({
-            selectedItem:index
-        })
+        var that = this;
         if(note.folder){
-            var items =this.state.subitems;
-            if(!items[index]){
-                items[index]=[];
-                axios.get(gitBaseUrl+note.name).then(response=>{
+            var items = note.subitems || [];
+            if(items.length===0){
+                var _notes = this.state.notes;
+                axios.get(gitBaseUrl+note.fullPath).then(response=>{
                     response.data.map((item,idx)=>{
-                        items[index].push({
-                            name:note.name+"/"+item.name,
-                            folder:!(item.name.endsWith(".MD")||item.name.endsWith(".md"))
+                        var noteNameIndex=item.name.toLocaleLowerCase().lastIndexOf(".md");
+                        items.push({
+                            name:noteNameIndex>0?item.name.substring(0,noteNameIndex):item.name,
+                            fullPath:note.name+"/"+item.name,
+                            folder:!(item.type==="file")
                         })
                     })
-                    this.setState({
-                        subitems:items
+                    _notes[index]["subitems"]=items;
+                    that.setState({
+                        notes:_notes
                     })
                 })
             }
         }else{
-            axios.get(gitBaseUrl+note.name).then(response=>{
-                this.props.handleOnItemClick(decodeURIComponent(escape(window.atob(response.data.content))));
-            })
+            if(!note.content){
+                axios.get(gitBaseUrl+note.fullPath).then(response=>{
+                    note["content"]=decodeURIComponent(escape(window.atob(response.data.content)));
+                    this.props.handleOnItemClick(note.content);
+                })
+            }else{
+                this.props.handleOnItemClick(note.content);
+            }
+
         }
     } 
 }
