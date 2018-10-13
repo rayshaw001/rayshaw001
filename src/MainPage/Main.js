@@ -21,7 +21,7 @@ class Main extends Component {
                 responses.data.map(note=>{
                     notes.push({
                         name: note.name,
-                        folder: false
+                        folder: !(note.name.endsWith(".md")||note.name.endsWith(".MD"))
                     })
                     this.setState({ notes: notes })
                 })
@@ -33,7 +33,6 @@ class Main extends Component {
     }
 
     render() {
-        console.log(this)
         return (
             <div className="Main">
                 <Header />
