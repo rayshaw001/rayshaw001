@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Button } from 'antd';
+import { Menu, Icon } from 'antd';
 import axios from 'axios';
-import './NoteList.less'
+import './NoteList.less';
 import 'antd/lib/menu/style/css'; 
+import 'antd/lib/icon/style/css';
 
 class NoteList extends Component {
     state={}
