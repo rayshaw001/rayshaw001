@@ -40,7 +40,7 @@ class Main extends Component {
                 <Header />
                 <div className='body'>
                     <NoteList notes={this.state.notes} handleOnItemClick={this.handleOnItemClick.bind(this)}/>
-                    <MarkDown className='markdown' source={this.state.input} />
+                    <MarkDown className='markdown' softBreak='br' source={this.state.input} />
                 </div>
             </div>
         );
