@@ -15,7 +15,7 @@ class AboutMe extends Component {
                     <div className="div">
                     <h1 className="h">Welcome to My Git Home Page </h1>
                     <h2 className="h">Github Page <a className="a" href="https://github.com/rayshaw001">rayshaw001</a></h2>
-                    {/* <h2 className="h">My CSDN blog Page <a className="a" href="http://blog.csdn.net/rayshaw001">rayshaw001</a></h2> */}
+
                     <h2 className="h">Leetcode <a className="a" href="https://leetcode.cn/rayshaw001/">rayshaw001</a></h2>
                     <h2 className="h">Netease Cloud Music <a className="a" href="http://music.163.com/#/user/home?id=74132453">RayShaw</a></h2>
                     </div>
