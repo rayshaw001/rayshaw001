@@ -11,7 +11,7 @@ class AboutMe extends Component {
         
         return (
             <div className="AboutMe">
-                <div id="home" style="color=">
+                <div id="home" style="color">
                     <div className="div">
                     <h1 className="h">Welcome to My Git Home Page </h1>
                     <h2 className="h">Github Page <a className="a" href="https://github.com/rayshaw001">rayshaw001</a></h2>

@@ -5,6 +5,7 @@ import MarkDown from 'react-markdown';
 import axios from 'axios';
 import NoteList from '../NoteList/NoteList';
 import Header from '../Header/Header';
+import AboutMe from '../AboutMe';
 
 class Main extends Component {
     state={input:'',notes:[],noteTotalSize:0}
@@ -35,12 +36,17 @@ class Main extends Component {
     }
 
     render() {
+        let content = (<AboutMe className='markdown' />)
+        if(this.state.input != null && this.state.input != '') {
+            content = (<MarkDown className='markdown' source={this.state.input} />)
+        }
+
         return (
             <div className="Main">
                 <Header />
                 <div className='body'>
                     <NoteList notes={this.state.notes} handleOnItemClick={this.handleOnItemClick.bind(this)}/>
-                    <MarkDown className='markdown' source={this.state.input} />
+                    {/* {content} */}
                 </div>
             </div>
         );
