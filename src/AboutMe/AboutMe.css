@@ -1,0 +1,28 @@
+svg{
+background-color:transparent;
+}
+canvas{
+	display: inline-block;
+	vertical-align: baseline;
+	position: relative;
+    font-size: 14px;
+    line-height: 2;
+    color: #555;
+}
+.h{
+	text-align:center
+}
+
+.a{
+	text-decoration:none;
+	color:#01A982;
+}
+
+.AboutMe {
+	width: 75%;
+  float: left;
+  padding-top: 35px;
+  text-align: left;
+  padding-left: 3%;
+  padding-right: 7%;
+}

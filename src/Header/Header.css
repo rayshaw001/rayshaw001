@@ -1,0 +1,11 @@
+.Header{
+    height: 50px;
+    background-color: #24292e;
+
+}
+
+.Header .avatar {
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left;
+}
