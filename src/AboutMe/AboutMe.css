@@ -18,11 +18,10 @@ canvas{
 	color:#01A982;
 }
 
-.AboutMe {
-	width: 75%;
-  float: left;
-  padding-top: 35px;
-  text-align: left;
-  padding-left: 3%;
-  padding-right: 7%;
+.polyLine {
+	fill:transparent;
+	stroke:#01A982;
+	stroke-width:3;
+	fill-rule:evenodd;
+	repeat-x:true
 }
