@@ -32,7 +32,7 @@ class Main extends Component {
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        return nextState.notes.length === this.state.noteTotalSize || this.state.input !== nextState.input;
+        return nextState.notes.length !== this.state.noteTotalSize || this.state.input !== nextState.input;
     }
 
     render() {
@@ -56,7 +56,7 @@ class Main extends Component {
     }
 
     handleOnItemClick(content){
-        // console.log(content);
+        console.log(content);
         this.setState({ input: content})
 
         // axios.get('https://api.github.com/repos/rayshaw001/books/contents/Note/K8s%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97.md')

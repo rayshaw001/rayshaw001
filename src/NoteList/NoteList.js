@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Menu } from 'antd';
-import { FileMarkdownOutlined, FolderOutlined } from '@ant-design/icons';
+import { FileMarkdownOutlined, FolderOpenOutlined, FolderOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import './NoteList.less';
-// import 'antd/lib/menu/style/css'; 
-// import 'antd/lib/icon/style/css';
+
 
 class NoteList extends Component {
     state={}
@@ -21,9 +19,11 @@ class NoteList extends Component {
         var notes=this.state.notes;
         var items=[];
         var that = this;
+        var folder = [];
+        var item = []
         notes.map((note,index)=>{
             if(!note.folder){
-                items.push (
+                folder.push (
                 <Menu.Item
                     key={index}
                     selected={that.state.selectedItem === index}
@@ -33,10 +33,14 @@ class NoteList extends Component {
                 </Menu.Item> 
                 )
             } else {
-                items.push (
+                note.clicked = note.clicked || false;
+                item.push (
                     <Menu.SubMenu 
                         key={index} 
-                        title={<span><FolderOutlined /><span>{note.name} </span> </span>} 
+                        title={
+                            note.clicked ? (<span> <FolderOpenOutlined /><span>{note.name} </span> </span>) :
+                        (<span> <FolderOutlined /><span>{note.name} </span> </span>)
+                    } 
                         onTitleClick={that.handleClick.bind(this,note,index)}>
                             {
                                 (note.subitems||[]).map((item,idx)=>{
@@ -52,6 +56,8 @@ class NoteList extends Component {
                 )
             }
         });
+        items.push(item);
+        items.push(folder);
         return (
             <div className="NoteList">
                 <Menu 
@@ -69,8 +75,9 @@ class NoteList extends Component {
         var that = this;
         if(note.folder){
             var items = note.subitems || [];
+            var clicked = note.clicked || false;
+            var _notes = this.state.notes;
             if(items.length===0){
-                var _notes = this.state.notes;
                 axios.get(gitBaseUrl+note.fullPath).then(response=>{
                     response.data.map((item,idx)=>{
                         var noteNameIndex=item.name.toLocaleLowerCase().lastIndexOf(".md");
@@ -80,10 +87,16 @@ class NoteList extends Component {
                             folder:!(item.type==="file")
                         })
                     })
-                    _notes[index]["subitems"]=items;
+                    _notes[index]["subitems"] = items;
+                    _notes[index]["clicked"] = !clicked;
                     that.setState({
                         notes:_notes
                     })
+                })
+            } else {
+                _notes[index]["clicked"] = !clicked;
+                that.setState({
+                    notes:_notes
                 })
             }
         }else{
